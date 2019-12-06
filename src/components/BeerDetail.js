@@ -1,6 +1,15 @@
 import React from "react";
 import Sorry from "./Sorry";
 
+const Img = ({images}) => <img alt="beer" src={images[0].url} className="py-2 pl-2 h-64" />
+
+const Value = ({value}) => <p className="text-lg text-gray-100">{value}</p>
+
+const ABV = ({value}) => <Value value={value.toFixed(4) * 100} />
+const Style = ({value}) => <Value value={value.name} />
+const Glass = ({value}) => <Value value={value[0].name} />
+
+
 const BeerDetail = ({
   name,
   abv,
@@ -10,11 +19,10 @@ const BeerDetail = ({
   recommendedGlass
 }) => {
   return (
-    <Sorry>
     <div className="mx-auto max-w-3xl h-64 my-4 flex flex-wrap bg-gray-800 shadow-lg hover:shadow-2xl rounded-lg">
       <div className="w-48 over flex justify-center">
         <Sorry>
-          <img alt="beer" src={images[0].url} className="py-2 pl-2 h-64" />
+          <Img images={images} />
         </Sorry>
       </div>
       <div className="border-l border-r border-gray-700 flex flex-wrap flex-col w-32 overflow-hidden justify-between">
@@ -30,21 +38,18 @@ const BeerDetail = ({
       <div className="flex flex-wrap flex-grow flex-col">
         <div className="py-2 px-2 flex border-b border-gray-700">
           <p className="text-lg font-bold pr-4 text-gray-400 w-14">ABV</p>
-          <Sorry>
-            <p className="text-lg text-gray-100">{abv.toFixed(4) * 100}</p>
-          </Sorry>
+          <Sorry><ABV value={abv} /></Sorry>
         </div>
         <div className="py-2 px-2 flex border-b border-gray-700">
           <p className="text-lg font-bold pr-4 text-gray-400 w-14">Style</p>
-          <p className="text-lg text-gray-100">{style.name}</p>
+          <Sorry><Style value={style} /></Sorry>
         </div>
         <div className="py-2 px-2 flex border-b border-gray-700">
           <p className="text-lg font-bold pr-4 text-gray-400 w-14">Glass</p>
-          <p className="text-lg text-gray-100">{recommendedGlass[0].name}</p>
+          <Sorry><Glass value={recommendedGlass} /></Sorry>
         </div>
       </div>
     </div>
-    </Sorry>
   );
 };
 

@@ -76,11 +76,13 @@ function App() {
 
   return (
     <div className="bg-gray-400 overflow-auto px-6 h-screen w-screen">
-    <Sorry>
-      {beerList.length && beerList.map((beer, index) => (
-        <BeerDetail key={index} {...beer} />
+    
+      {beerList.map((beer, index) => (
+        <Sorry>
+          <BeerDetail key={index} {...beer} />
+        </Sorry>
       ))}
-      </Sorry>
+      
     </div>
   );
 }
