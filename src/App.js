@@ -1,32 +1,80 @@
-import React from "react";
-import BeerDetail from './components/BeerDetail'
-
-const Mock = {
-  name: "Hirsch Helles",
-  ratings: [],
-  abv: 0.048,
-  brewery: {
-    name: "Hirsch-Brauerei Honer GmbH & Co. Kg",
-    founded: "1782-01-01T00:00:00.000Z"
-  },
-  style: {
-    name: "Helles"
-  },
-  images: [
-    {
-      url: "https://media.graphcms.com/oQrOsMvyT5mD0R2L46f3",
-      width: 350
-    }
-  ],
-  snaps: []
-};
-
+import React, { useState, useEffect } from "react";
+import BeerDetail from "./components/BeerDetail";
+import Sorry from './components/Sorry'
 
 
 function App() {
+  const [beerList, updateBeerList] = useState([]);
+
+  useEffect(() => {
+    fetch("https://api-euwest.graphcms.com/v1/ck2delryp145j01et1z9mh04a/master", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query: `
+      {
+        beers {
+          name
+          recommendedGlass {
+            name
+          }
+          ratings {
+            dominantFlavors {
+              name
+            }
+            mildFlavors {
+              name
+            }
+            approachFlavors {
+              name
+            }
+            approach
+            mouthFeel
+            finish
+            glass {
+              name
+            }
+          }
+          abv
+          brewery {
+            name
+            founded
+            website
+          }
+          style {
+            name
+          }
+          images {
+            url
+            width
+          }
+          snaps {
+            event {
+              name
+            }
+            persons {
+              name
+              twitterHandle
+            }
+            image {
+              url
+              width
+            }
+          }
+        }
+      }
+      ` })
+    })
+      .then(res => res.json())
+      .then(res => {
+        updateBeerList(res.data.beers)
+      })
+  }, []);
+
   return (
-    <div className="bg-gray-400 overflow-auto px-6">
-      {[...new Array(10)].map(() => <BeerDetail {...Mock} />)}
+    <div className="bg-gray-400 overflow-auto px-6 h-screen w-screen">
+      {beerList.map((beer, index) => (
+        <BeerDetail key={index} {...beer} />
+      ))}
     </div>
   );
 }

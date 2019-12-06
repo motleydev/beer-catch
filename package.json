@@ -64,6 +64,7 @@
   },
   "scripts": {
     "start": "echo 'whatup' && node scripts/start.js",
+    "build": "node scripts/build.js",
     "test": "node scripts/test.js",
     "build:styles": "postcss src/styles/main.css -o src/styles/tailwind.css",
     "prebuild": "npm run build:styles",
